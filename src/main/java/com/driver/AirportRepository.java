@@ -78,19 +78,20 @@ public class AirportRepository {
     }
 
     public String bookTicket(int flightId, int passengerId) {
-        for (Flight flight : flightDb.values()) {
-            if (flight.getFlightId() == flightId && flightBookDb.get(flightId).size() > flight.getMaxCapacity()) {
+          if (flightBookDb.containsKey(flightId) && flightBookDb.get(flightId).size() >= flightDb.get(flightId).getMaxCapacity()) {
                 return "FAILURE";
             }
-        }
 
 
-        if (flightBookDb.containsKey(flightId) && flightBookDb.get(flightId).contains(passengerId)) {
+
+        if (flightBookDb.get(flightId).contains(passengerId)) {
             return "FAILURE";
-        } else if (flightBookDb.containsKey(flightId)) {
+        }
+        else if (flightBookDb.containsKey(flightId)) {
             flightBookDb.get(flightId).add(passengerId);
             return "SUCCESS";
-        } else
+        }
+        else
         {
             List<Integer> list = new ArrayList<>();
             list.add(passengerId);
@@ -150,9 +151,13 @@ public class AirportRepository {
 
     public int calculateFlightFare(int flightId)
     {
-        int size = flightBookDb.get(flightId).size();
+        int price =3000;
+        if(flightDb.containsKey(flightId))
+        {
+            price = 3000 + (flightBookDb.get(flightId).size()*50);
+        }
 
-        int price = 3000 + (size*50);
+
 
         return price;
 
