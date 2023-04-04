@@ -163,26 +163,18 @@ public class AirportRepository {
 
     public int getNumberOfPeopleOn(Date date, String airportName)
     {
-       City city = airportDb.get(airportName).getCity();
-
-       List<Integer> flightIds = new ArrayList<>();
-
-       for(int id : flightDb.keySet())
-       {
-           if((flightDb.get(id).getFromCity().equals(city) || flightDb.get(id).getToCity().equals(city)) && flightDb.get(id).getFlightDate().equals(date))
-           {
-               flightIds.add(id);
-           }
-       }
-
-       int count =0;
-
-       for(int id : flightIds)
-       {
-           count+= flightBookDb.get(id).size();
-       }
-
-       return count;
+        int count = 0;
+        if(airportDb.containsKey(airportName)){
+            City city = airportDb.get(airportName).getCity();
+            for(Flight flight : flightDb.values()){
+                if(flight.getFlightDate().equals(date)){
+                    if(flight.getFromCity().equals(city) || flight.getToCity().equals(city)){
+                        count = count + flightBookDb.get(flight.getFlightId()).size();
+                    }
+                }
+            }
+        }
+        return count;
     }
 
     public int calculateRevenueOfAFlight(int flightId)
