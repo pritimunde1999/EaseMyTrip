@@ -103,12 +103,14 @@ public class AirportRepository {
     public String cancelTicket(int flightId, int passengerId)
     {
         if (flightBookDb.containsKey(flightId)) {
-            List<Integer> passengers = flightBookDb.get(flightId);
-            if (passengers.contains(passengerId)) {
-                passengers.remove(passengerId);
+            if(flightBookDb.get(flightId).contains(passengerId))
+            {
+                flightBookDb.get(flightId).remove(passengerId);
                 return "SUCCESS";
             }
+
         }
+
         return "FAILURE";
     }
 
