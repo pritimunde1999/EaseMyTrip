@@ -78,24 +78,23 @@ public class AirportRepository {
     }
 
     public String bookTicket(int flightId, int passengerId) {
-          if (flightBookDb.containsKey(flightId) && flightBookDb.get(flightId).size() >= flightDb.get(flightId).getMaxCapacity()) {
+          if (flightBookDb.containsKey(flightId) && flightBookDb.get(flightId).size() >= flightDb.get(flightId).getMaxCapacity())
+          {
                 return "FAILURE";
-            }
+          }
 
 
 
-        if (flightBookDb.get(flightId).contains(passengerId)) {
+        List<Integer> passengers = flightBookDb.get(flightId);
+        if (passengers != null && passengers.contains(passengerId)) {
             return "FAILURE";
         }
-        else if (flightBookDb.containsKey(flightId)) {
-            flightBookDb.get(flightId).add(passengerId);
-            return "SUCCESS";
-        }
-        else
-        {
-            List<Integer> list = new ArrayList<>();
-            list.add(passengerId);
-            flightBookDb.put(flightId, list);
+        else {
+            if(passengers == null){
+                passengers = new ArrayList<>();
+            }
+            passengers.add(passengerId);
+            flightBookDb.put(flightId, passengers);
             return "SUCCESS";
         }
 
