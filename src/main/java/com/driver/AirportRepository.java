@@ -102,15 +102,14 @@ public class AirportRepository {
 
     public String cancelTicket(int flightId, int passengerId)
     {
-        if(!flightBookDb.containsKey(flightId)) return "FAILURE";
-        else if(!flightBookDb.get(flightId).contains(passengerId)) return "FAILURE";
-        else if(flightBookDb.get(flightId).contains(passengerId))
-        {
-            flightBookDb.get(flightId).remove(passengerId);
-            return "SUCCESS";
+        if (flightBookDb.containsKey(flightId)) {
+            List<Integer> passengers = flightBookDb.get(flightId);
+            if (passengers.contains(passengerId)) {
+                passengers.remove(passengerId);
+                return "SUCCESS";
+            }
         }
-
-        return null;
+        return "FAILURE";
     }
 
     public int countOfBookingByPassenger(int passengerId)
@@ -170,7 +169,7 @@ public class AirportRepository {
 
        for(int id : flightDb.keySet())
        {
-           if(flightDb.get(id).getFromCity().equals(city) && flightDb.get(id).getFlightDate().equals(date))
+           if((flightDb.get(id).getFromCity().equals(city) || flightDb.get(id).getToCity().equals(city)) && flightDb.get(id).getFlightDate().equals(date))
            {
                flightIds.add(id);
            }
