@@ -102,6 +102,11 @@ public class AirportRepository {
 
     public String cancelTicket(int flightId, int passengerId)
     {
+
+        if(!flightBookDb.containsKey(flightId)) return "FAILURE";
+
+        if(!flightBookDb.get(flightId).contains(passengerId)) return "FAILURE";
+
         if (flightBookDb.containsKey(flightId)) {
             if(flightBookDb.get(flightId).contains(passengerId))
             {
