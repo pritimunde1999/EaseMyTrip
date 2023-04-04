@@ -106,7 +106,14 @@ public class AirportRepository {
         if (flightBookDb.containsKey(flightId)) {
             List<Integer> passengers = flightBookDb.get(flightId);
             if (passengers.contains(passengerId)) {
-                passengers.remove(passengerId);
+                if(passengers.size()>=2)
+                {
+                    passengers.remove(passengerId);
+                }
+                else
+                {
+                    flightBookDb.remove(flightId);
+                }
                 return "SUCCESS";
             }
         }
